@@ -1,0 +1,2264 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shoira Cosmética | Студия безупречного маникюра</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&family=Caveat:wght@400;600&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --gold: #c9965a;
+            --gold-light: #e8c99a;
+            --cream: #fdf6ed;
+            --blush: #f0d9c8;
+            --deep: #1a1208;
+            --warm: #6b4f35;
+            --white: #ffffff;
+            --text: #2d1f0e;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Jost', sans-serif;
+            color: var(--text);
+            background: var(--cream);
+            overflow-x: hidden;
+            cursor: none;
+        }
+
+        /* CUSTOM CURSOR */
+        .cursor {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            background: var(--gold);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 99999;
+            transition: transform 0.1s ease;
+        }
+
+        .cursor-ring {
+            position: fixed;
+            width: 36px;
+            height: 36px;
+            border: 1.5px solid var(--gold);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 99998;
+            transition: all 0.15s ease;
+            opacity: 0.7;
+        }
+
+        .cursor-ring.hovered {
+            transform: scale(2.2);
+            opacity: 0.3;
+        }
+
+        /* LOADER */
+        #loader {
+            position: fixed;
+            inset: 0;
+            background: var(--cream);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.8s ease;
+        }
+
+        #loader .loader-logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 52px;
+            color: var(--gold);
+            letter-spacing: 8px;
+            opacity: 0;
+            animation: fadeUp 0.8s 0.3s forwards;
+        }
+
+        #loader .loader-line {
+            width: 0;
+            height: 1px;
+            background: var(--gold);
+            margin-top: 15px;
+            animation: expand 1s 0.8s forwards;
+        }
+
+        #loader .loader-sub {
+            font-family: 'Caveat', cursive;
+            font-size: 16px;
+            color: var(--warm);
+            opacity: 0;
+            animation: fadeUp 0.6s 1.2s forwards;
+            margin-top: 10px;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes expand {
+            to {
+                width: 160px;
+            }
+        }
+
+        /* HEADER */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 20px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.5s ease;
+        }
+
+        .header.scrolled {
+            background: rgba(253, 246, 237, 0.96);
+            backdrop-filter: blur(20px);
+            padding: 14px 6%;
+            border-bottom: 1px solid rgba(201, 150, 90, 0.2);
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.06);
+        }
+
+        .logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 28px;
+            letter-spacing: 5px;
+            color: var(--gold);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .logo span {
+            display: block;
+            font-size: 10px;
+            letter-spacing: 6px;
+            color: var(--warm);
+            font-family: 'Jost', sans-serif;
+            font-weight: 300;
+            text-transform: uppercase;
+            margin-top: -4px;
+        }
+
+        .nav {
+            display: flex;
+            gap: 35px;
+            align-items: center;
+        }
+
+        .nav a {
+            text-decoration: none;
+            color: var(--text);
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: color 0.3s;
+        }
+
+        .nav a:hover {
+            color: var(--gold);
+        }
+
+        .btn-book {
+            background: transparent;
+            border: 1.5px solid var(--gold);
+            color: var(--gold);
+            padding: 11px 28px;
+            border-radius: 0;
+            font-family: 'Jost', sans-serif;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            cursor: none;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-book::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--gold);
+            transform: translateX(-101%);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 0;
+        }
+
+        .btn-book:hover::before {
+            transform: translateX(0);
+        }
+
+        .btn-book:hover {
+            color: var(--white);
+        }
+
+        .btn-book span {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* HERO */
+        .hero {
+            height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: flex-end;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background: url('https://images.unsplash.com/photo-1604654894610-df490c81726a?auto=format&fit=crop&w=1920&q=80') center/cover;
+            transform: scale(1.1);
+            transition: transform 8s ease;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(130deg, rgba(26, 18, 8, 0.75) 0%, rgba(107, 79, 53, 0.3) 60%, transparent 100%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            padding: 0 8% 10vh;
+            max-width: 760px;
+        }
+
+        .hero-tag {
+            font-family: 'Caveat', cursive;
+            font-size: 22px;
+            color: var(--gold-light);
+            margin-bottom: 16px;
+            opacity: 0;
+            animation: fadeUp 0.8s 2s forwards;
+        }
+
+        .hero h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(48px, 7vw, 90px);
+            color: var(--white);
+            line-height: 1.05;
+            font-weight: 300;
+            opacity: 0;
+            animation: fadeUp 0.8s 2.2s forwards;
+        }
+
+        .hero h1 em {
+            font-style: italic;
+            color: var(--gold-light);
+        }
+
+        .hero-sub {
+            font-size: 15px;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 300;
+            letter-spacing: 1px;
+            margin-top: 20px;
+            max-width: 420px;
+            opacity: 0;
+            animation: fadeUp 0.8s 2.4s forwards;
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 15px;
+            margin-top: 36px;
+            opacity: 0;
+            animation: fadeUp 0.8s 2.6s forwards;
+        }
+
+        .btn-primary {
+            background: var(--gold);
+            color: var(--white);
+            padding: 16px 38px;
+            font-family: 'Jost', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            border: none;
+            cursor: none;
+            transition: all 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(255, 255, 255, 0.15);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .btn-primary:hover::after {
+            opacity: 1;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(201, 150, 90, 0.4);
+        }
+
+        .hero-scroll {
+            position: absolute;
+            bottom: 40px;
+            right: 8%;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            opacity: 0;
+            animation: fadeUp 0.8s 3s forwards;
+        }
+
+        .hero-scroll span {
+            writing-mode: vertical-rl;
+            font-size: 10px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .scroll-line {
+            width: 1px;
+            height: 60px;
+            background: linear-gradient(to bottom, transparent, var(--gold));
+            animation: scrollAnim 2s infinite;
+        }
+
+        @keyframes scrollAnim {
+            0% {
+                transform: scaleY(0);
+                transform-origin: top;
+            }
+
+            50% {
+                transform: scaleY(1);
+                transform-origin: top;
+            }
+
+            51% {
+                transform-origin: bottom;
+            }
+
+            100% {
+                transform: scaleY(0);
+                transform-origin: bottom;
+            }
+        }
+
+        /* STATS BAR */
+        .stats-bar {
+            background: var(--deep);
+            padding: 28px 6%;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            text-align: center;
+            gap: 20px;
+        }
+
+        .stat-num {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 42px;
+            color: var(--gold);
+            line-height: 1;
+        }
+
+        .stat-num sup {
+            font-size: 20px;
+            vertical-align: super;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.5);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-top: 5px;
+        }
+
+        /* SECTIONS COMMON */
+        .section-tag {
+            font-family: 'Caveat', cursive;
+            font-size: 20px;
+            color: var(--gold);
+            display: block;
+            margin-bottom: 12px;
+        }
+
+        .section-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(32px, 4vw, 52px);
+            line-height: 1.1;
+            font-weight: 400;
+        }
+
+        /* ABOUT */
+        .about {
+            padding: 120px 6%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .about-visual {
+            position: relative;
+        }
+
+        .about-img-wrap {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .about-img {
+            width: 100%;
+            aspect-ratio: 4/5;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.8s ease;
+        }
+
+        .about-img-wrap:hover .about-img {
+            transform: scale(1.04);
+        }
+
+        .about-badge {
+            position: absolute;
+            bottom: -25px;
+            right: -25px;
+            width: 130px;
+            height: 130px;
+            background: var(--gold);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+        }
+
+        .about-badge strong {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 36px;
+            line-height: 1;
+        }
+
+        .about-badge span {
+            font-size: 9px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            opacity: 0.8;
+        }
+
+        .about-line {
+            width: 60px;
+            height: 2px;
+            background: var(--gold);
+            margin: 25px 0;
+        }
+
+        .about-features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 35px;
+        }
+
+        .feat-item {
+            padding: 20px;
+            background: var(--white);
+            border-left: 3px solid var(--gold);
+        }
+
+        .feat-item h4 {
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 6px;
+        }
+
+        .feat-item p {
+            font-size: 13px;
+            color: var(--warm);
+            line-height: 1.5;
+        }
+
+        /* SERVICES */
+        .services {
+            padding: 100px 6%;
+            background: var(--deep);
+        }
+
+        .services-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 60px;
+        }
+
+        .services-header .section-title {
+            color: var(--white);
+        }
+
+        .services-header .section-tag {
+            color: var(--gold-light);
+        }
+
+        .price-note {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.4);
+            letter-spacing: 1px;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2px;
+        }
+
+        .svc-card {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 48px 36px;
+            border: 1px solid rgba(201, 150, 90, 0.12);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s ease;
+            cursor: none;
+        }
+
+        .svc-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(201, 150, 90, 0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        .svc-card:hover {
+            background: rgba(201, 150, 90, 0.08);
+            border-color: rgba(201, 150, 90, 0.4);
+        }
+
+        .svc-card:hover::before {
+            opacity: 1;
+        }
+
+        .svc-card:hover .svc-num {
+            opacity: 0.15;
+        }
+
+        .svc-num {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 72px;
+            color: var(--gold);
+            opacity: 0.06;
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            line-height: 1;
+            transition: opacity 0.5s;
+            font-weight: 300;
+        }
+
+        .svc-icon {
+            font-size: 36px;
+            margin-bottom: 25px;
+            display: block;
+        }
+
+        .svc-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 28px;
+            color: var(--white);
+            margin-bottom: 12px;
+            font-weight: 400;
+        }
+
+        .svc-desc {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.5);
+            line-height: 1.7;
+            margin-bottom: 25px;
+        }
+
+        .svc-price {
+            font-size: 22px;
+            color: var(--gold);
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        .svc-price span {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.3);
+            font-family: 'Jost', sans-serif;
+            margin-left: 4px;
+        }
+
+        .svc-from {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.3);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .svc-tag {
+            display: inline-block;
+            padding: 4px 12px;
+            border: 1px solid rgba(201, 150, 90, 0.3);
+            font-size: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--gold-light);
+            margin-top: 16px;
+        }
+
+        /* PROCESS */
+        .process {
+            padding: 100px 6%;
+            background: var(--blush);
+        }
+
+        .process-title {
+            text-align: center;
+            margin-bottom: 70px;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0;
+            position: relative;
+        }
+
+        .steps::before {
+            content: '';
+            position: absolute;
+            top: 35px;
+            left: 10%;
+            right: 10%;
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--gold), transparent);
+        }
+
+        .step {
+            text-align: center;
+            padding: 20px 20px;
+        }
+
+        .step-num {
+            width: 70px;
+            height: 70px;
+            background: var(--white);
+            border: 2px solid var(--gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 24px;
+            color: var(--gold);
+            margin: 0 auto 25px;
+            position: relative;
+            z-index: 1;
+            transition: all 0.4s ease;
+        }
+
+        .step:hover .step-num {
+            background: var(--gold);
+            color: var(--white);
+            transform: scale(1.1);
+        }
+
+        .step h3 {
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .step p {
+            font-size: 13px;
+            color: var(--warm);
+            line-height: 1.6;
+        }
+
+        /* GALLERY */
+        .gallery {
+            padding: 100px 6%;
+        }
+
+        .gallery-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 40px;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: auto;
+            gap: 6px;
+        }
+
+        .gallery-item {
+            overflow: hidden;
+            position: relative;
+            cursor: none;
+        }
+
+        .gallery-item.large {
+            grid-column: span 2;
+            grid-row: span 2;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            aspect-ratio: 1;
+            display: block;
+            transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1), filter 0.5s;
+        }
+
+        .gallery-item.large img {
+            aspect-ratio: unset;
+            height: 100%;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.08);
+            filter: brightness(0.85);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(26, 18, 8, 0.7), transparent);
+            opacity: 0;
+            transition: opacity 0.4s;
+            display: flex;
+            align-items: flex-end;
+            padding: 20px;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        .gallery-overlay span {
+            color: var(--white);
+            font-size: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* MASTERS */
+        .masters {
+            padding: 100px 6%;
+            background: var(--cream);
+        }
+
+        .masters-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+          
+            margin-top: 60px;
+        }
+
+        .master-card {
+            text-align: center;
+           
+        }
+
+        .master-photo-wrap {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 25px;
+            position: relative;
+        }
+
+        .master-photo {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--gold);
+            transition: all 0.5s ease;
+        }
+
+        .master-ring {
+            position: absolute;
+            inset: -8px;
+            border-radius: 50%;
+            border: 1px dashed var(--gold-light);
+            animation: spin 15s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .master-card:hover .master-photo {
+            transform: scale(1.05);
+            border-color: var(--warm);
+        }
+
+        .master-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 26px;
+            margin-bottom: 6px;
+        }
+
+        .master-role {
+            font-size: 11px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 12px;
+        }
+
+        .master-desc {
+            font-size: 13px;
+            color: var(--warm);
+            line-height: 1.6;
+            max-width: 240px;
+            margin: 0 auto 16px;
+        }
+
+        .master-exp {
+            display: inline-block;
+            padding: 6px 16px;
+            background: var(--blush);
+            font-size: 11px;
+            letter-spacing: 1px;
+            color: var(--warm);
+        }
+
+        /* REVIEWS */
+        .reviews {
+            padding: 100px 6%;
+            background: var(--deep);
+            overflow: hidden;
+        }
+
+        .reviews-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .reviews-header .section-title {
+            color: var(--white);
+        }
+
+        .reviews-header .section-tag {
+            color: var(--gold-light);
+        }
+
+        .reviews-track-wrap {
+            overflow: hidden;
+        }
+
+        .reviews-track {
+            display: flex;
+            gap: 24px;
+            transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .review-item {
+            min-width: calc(33.333% - 16px);
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(201, 150, 90, 0.15);
+            padding: 44px;
+            flex-shrink: 0;
+        }
+
+        .review-stars {
+            color: var(--gold);
+            font-size: 18px;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+        }
+
+        .review-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 19px;
+            color: rgba(255, 255, 255, 0.85);
+            line-height: 1.6;
+            font-style: italic;
+            margin-bottom: 25px;
+        }
+
+        .review-author {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .review-avatar {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--gold), var(--warm));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 18px;
+            color: white;
+        }
+
+        .review-name {
+            font-weight: 600;
+            font-size: 13px;
+            color: var(--white);
+        }
+
+        .review-date {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.3);
+            letter-spacing: 1px;
+        }
+
+        .reviews-nav {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 40px;
+        }
+
+        .rev-btn {
+            width: 48px;
+            height: 48px;
+            border: 1px solid rgba(201, 150, 90, 0.3);
+            background: transparent;
+            color: var(--gold);
+            font-size: 18px;
+            cursor: none;
+            transition: all 0.3s;
+        }
+
+        .rev-btn:hover {
+            background: var(--gold);
+            color: var(--white);
+        }
+
+        .reviews-dots {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .dot-r {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: all 0.3s;
+            cursor: none;
+        }
+
+        .dot-r.active {
+            background: var(--gold);
+            width: 24px;
+            border-radius: 3px;
+        }
+
+        /* BOOKING */
+        .booking {
+            padding: 100px 6%;
+            background: linear-gradient(135deg, var(--blush) 0%, var(--cream) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .booking::before {
+            content: '';
+            position: absolute;
+            right: -100px;
+            top: -100px;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(201, 150, 90, 0.12), transparent 70%);
+        }
+
+        .booking-inner {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .booking-text .section-title {
+            font-size: clamp(28px, 3.5vw, 46px);
+        }
+
+        .booking-form {
+            background: var(--white);
+            padding: 48px;
+            box-shadow: 30px 30px 0 rgba(201, 150, 90, 0.12);
+        }
+
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--warm);
+            margin-bottom: 8px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid rgba(201, 150, 90, 0.3);
+            background: var(--cream);
+            font-family: 'Jost', sans-serif;
+            font-size: 14px;
+            color: var(--text);
+            outline: none;
+            transition: border-color 0.3s;
+            cursor: none;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--gold);
+        }
+
+        .form-group select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23c9965a' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 18px;
+            background: var(--deep);
+            color: var(--white);
+            border: none;
+            font-family: 'Jost', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            cursor: none;
+            transition: all 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-submit::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--gold);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .btn-submit:hover::before {
+            transform: scaleX(1);
+        }
+
+        .btn-submit span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .booking-features {
+            margin-top: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .book-feat {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-size: 14px;
+            color: var(--warm);
+        }
+
+        .book-feat-icon {
+            width: 38px;
+            height: 38px;
+            background: var(--white);
+            border: 1px solid rgba(201, 150, 90, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 18px;
+        }
+
+        /* FAQ */
+        .faq {
+            padding: 100px 6%;
+        }
+
+        .faq-inner {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 80px;
+            align-items: start;
+        }
+
+        .faq-list {
+            margin-top: 0;
+        }
+
+        .faq-item {
+            border-bottom: 1px solid rgba(201, 150, 90, 0.2);
+            overflow: hidden;
+        }
+
+        .faq-q {
+            padding: 22px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: none;
+            font-weight: 500;
+            font-size: 15px;
+            transition: color 0.3s;
+        }
+
+        .faq-q:hover {
+            color: var(--gold);
+        }
+
+        .faq-icon {
+            font-size: 20px;
+            color: var(--gold);
+            transition: transform 0.4s;
+            flex-shrink: 0;
+        }
+
+        .faq-a {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease, padding 0.3s;
+        }
+
+        .faq-a p {
+            font-size: 14px;
+            color: var(--warm);
+            line-height: 1.7;
+            padding-bottom: 20px;
+        }
+
+        .faq-item.open .faq-icon {
+            transform: rotate(45deg);
+        }
+
+        .faq-item.open .faq-a {
+            max-height: 200px;
+        }
+
+        /* MAP */
+        .map-section {
+            padding: 100px 6%;
+            background: var(--deep);
+        }
+
+        .map-section .section-title {
+            color: var(--white);
+        }
+
+        .map-section .section-tag {
+            color: var(--gold-light);
+        }
+
+        .map-inner {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            margin-top: 50px;
+        }
+
+        .map-frame {
+            width: 100%;
+            height: 340px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(201, 150, 90, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .map-frame iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+            opacity: 0.8;
+        }
+
+        .map-info {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .map-info-item {
+            display: flex;
+            gap: 18px;
+            align-items: flex-start;
+        }
+
+        .map-info-icon {
+            font-size: 24px;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .map-info-label {
+            font-size: 10px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 5px;
+        }
+
+        .map-info-val {
+            color: rgba(255, 255, 255, 0.75);
+            font-size: 15px;
+            line-height: 1.5;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 14px;
+            margin-top: 10px;
+        }
+
+        .social-link {
+            width: 44px;
+            height: 44px;
+            border: 1px solid rgba(201, 150, 90, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            text-decoration: none;
+            transition: all 0.3s;
+            cursor: none;
+        }
+
+        .social-link:hover {
+            background: var(--gold);
+            border-color: var(--gold);
+        }
+
+        /* FOOTER */
+        footer {
+            background: #0f0a04;
+            padding: 50px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid rgba(201, 150, 90, 0.1);
+        }
+
+        .footer-logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 26px;
+            letter-spacing: 5px;
+            color: var(--gold);
+        }
+
+        .footer-copy {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.25);
+            letter-spacing: 1px;
+        }
+
+        /* FLOATING WHATSAPP */
+        .wa-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 58px;
+            height: 58px;
+            background: #25D366;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            text-decoration: none;
+            z-index: 500;
+            box-shadow: 0 5px 20px rgba(37, 211, 102, 0.4);
+            animation: pulse-wa 2s infinite;
+            cursor: none;
+        }
+
+        @keyframes pulse-wa {
+
+            0%,
+            100% {
+                box-shadow: 0 5px 20px rgba(37, 211, 102, 0.4);
+            }
+
+            50% {
+                box-shadow: 0 5px 30px rgba(37, 211, 102, 0.7);
+            }
+        }
+
+        /* MOBILE NAV */
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 65px;
+            background: rgba(253, 246, 237, 0.97);
+            backdrop-filter: blur(20px);
+            justify-content: space-around;
+            align-items: center;
+            border-top: 1px solid rgba(201, 150, 90, 0.2);
+            z-index: 2000;
+        }
+
+        .mob-link {
+            text-decoration: none;
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+            flex: 1;
+            transition: color 0.3s;
+            cursor: none;
+        }
+
+        .mob-link span {
+            font-size: 22px;
+        }
+
+        .mob-link p {
+            font-size: 9px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin: 0;
+        }
+
+        .mob-link:hover,
+        .mob-link.active {
+            color: var(--gold);
+        }
+
+        /* SCROLL REVEAL */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* NOTIFICATION */
+        .toast {
+            position: fixed;
+            top: 100px;
+            right: 30px;
+            background: var(--deep);
+            color: var(--white);
+            padding: 16px 24px;
+            font-size: 13px;
+            letter-spacing: 1px;
+            z-index: 5000;
+            transform: translateX(200%);
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            border-left: 3px solid var(--gold);
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        /* RESPONSIVE */
+        @media(max-width:992px) {
+            .services-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .masters-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .booking-inner {
+                grid-template-columns: 1fr;
+            }
+
+            .faq-inner {
+                grid-template-columns: 1fr;
+            }
+
+            .map-inner {
+                grid-template-columns: 1fr;
+            }
+
+            .steps {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .steps::before {
+                display: none;
+            }
+        }
+
+        @media(max-width:768px) {
+            .nav {
+                display: none;
+            }
+
+            .about {
+                grid-template-columns: 1fr;
+                gap: 50px;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-bar {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .review-item {
+                min-width: calc(100% - 0px);
+            }
+
+            .mobile-nav {
+                display: flex;
+            }
+
+            footer {
+                padding-bottom: 80px;
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+
+            .masters-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .gallery-item.large {
+                grid-column: span 2;
+            }
+
+            .hero-btns {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        @media(max-width:480px) {
+            .about-features {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-bar {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .steps {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- CURSORS -->
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
+
+    <!-- LOADER -->
+    <div id="loader">
+        <div class="loader-logo">SHOIRA</div>
+        <div class="loader-line"></div>
+        <div class="loader-sub">cosmética studio</div>
+    </div>
+
+    <!-- TOAST -->
+    <div class="toast" id="toast">✓ Запись принята! Мы свяжемся с вами</div>
+
+    <!-- HEADER -->
+    <header class="header" id="header">
+        <a href="#" class="logo">SHOIRA <span>cosmética</span></a>
+        <nav class="nav">
+            <a href="#about">О студии</a>
+            <a href="#services">Услуги</a>
+            <a href="#masters">Мастера</a>
+            <a href="#reviews">Отзывы</a>
+            <button class="btn-book"
+                onclick="document.getElementById('booking').scrollIntoView({behavior:'smooth'})"><span>Записаться</span></button>
+        </nav>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero" id="hero">
+        <div class="hero-bg" id="heroBg"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <p class="hero-tag">Добро пожаловать в мир эстетики</p>
+            <h1>Искусство <em>Вашего</em><br>Маникюра</h1>
+            <p class="hero-sub">Студия, где каждая деталь продумана — от дизайна до комфорта. Премиальные материалы,
+                мастера с душой.</p>
+            <div class="hero-btns">
+                <button class="btn-primary"
+                    onclick="document.getElementById('booking').scrollIntoView({behavior:'smooth'})">Записаться
+                    онлайн</button>
+                <button class="btn-book"
+                    onclick="document.getElementById('services').scrollIntoView({behavior:'smooth'})"><span>Смотреть
+                        услуги</span></button>
+            </div>
+        </div>
+        <div class="hero-scroll">
+            <span>Scroll</span>
+            <div class="scroll-line"></div>
+        </div>
+    </section>
+
+    <!-- STATS BAR -->
+    <div class="stats-bar">
+        <div>
+            <div class="stat-num" data-target="1200"><sup></sup><span>0</span>+</div>
+            <div class="stat-label">Довольных клиентов</div>
+        </div>
+        <div>
+            <div class="stat-num" data-target="7"><sup></sup><span>0</span> лет</div>
+            <div class="stat-label">На рынке красоты</div>
+        </div>
+        <div>
+            <div class="stat-num" data-target="500"><sup></sup><span>0</span>+</div>
+            <div class="stat-label">Оттенков в палитре</div>
+        </div>
+        <div>
+            <div class="stat-num" data-target="98"><sup></sup><span>0</span>%</div>
+            <div class="stat-label">Рекомендуют нас</div>
+        </div>
+    </div>
+
+    <!-- ABOUT -->
+    <section id="about" class="about">
+        <div class="about-visual reveal">
+            <div class="about-img-wrap">
+                <img src="https://images.unsplash.com/photo-1519014816548-bf5fe059798b?auto=format&fit=crop&w=800&q=80"
+                    alt="О нас" class="about-img">
+            </div>
+            <div class="about-badge">
+                <strong>7</strong>
+                <span>лет опыта</span>
+            </div>
+        </div>
+        <div class="reveal" style="transition-delay:0.2s">
+            <span class="section-tag">О нас</span>
+            <h2 class="section-title">Более семи лет<br>любви к деталям</h2>
+            <div class="about-line"></div>
+            <p style="font-size:15px;color:var(--warm);line-height:1.8;">Shoira Cosmética — это не просто студия
+                маникюра. Это место, где красота встречается с заботой. Мы используем только сертифицированные материалы
+                мировых брендов и соблюдаем строжайшие стандарты гигиены.</p>
+            <div class="about-features">
+                <div class="feat-item">
+                    <h4>🧼 Стерильность</h4>
+                    <p>Инструменты проходят автоклавную стерилизацию перед каждым клиентом</p>
+                </div>
+                <div class="feat-item">
+                    <h4>💎 Премиум бренды</h4>
+                    <p>Работаем с OPI, Gelish, CND и другими топовыми производителями</p>
+                </div>
+                <div class="feat-item">
+                    <h4>🎨 500+ оттенков</h4>
+                    <p>Огромная палитра — всегда найдёте идеальный цвет</p>
+                </div>
+                <div class="feat-item">
+                    <h4>⏱️ Без ожидания</h4>
+                    <p>Система онлайн-записи — приходите точно к своему времени</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section id="services" class="services">
+        <div class="services-header reveal">
+            <div>
+                <span class="section-tag">Что мы делаем</span>
+                <h2 class="section-title">Наши услуги</h2>
+            </div>
+            <p class="price-note">Актуальные цены — уточняйте при записи</p>
+        </div>
+        <div class="services-grid reveal" style="transition-delay:0.2s">
+            <div class="svc-card">
+                <div class="svc-num">01</div>
+                <span class="svc-icon">💅</span>
+                <h3 class="svc-title">Маникюр</h3>
+                <p class="svc-desc">Комбинированный или аппаратный маникюр с укреплением базой. Идеальная форма, уход за
+                    кутикулой и стойкое покрытие.</p>
+                <span class="svc-from">от</span>
+                <div class="svc-price">800 руб <span>/ сеанс</span></div>
+                <span class="svc-tag">Хит ✦</span>
+            </div>
+            <div class="svc-card">
+                <div class="svc-num">02</div>
+                <span class="svc-icon">✨</span>
+                <h3 class="svc-title">Наращивание</h3>
+                <p class="svc-desc">Моделирование ногтей любой сложности — на формы или гелевые типсы. Укрепляющий
+                    gel-x, акрил, полигель.</p>
+                <span class="svc-from">от</span>
+                <div class="svc-price">2 200 руб <span>/ сеанс</span></div>
+                <span class="svc-tag">Популярное ✦</span>
+            </div>
+            <div class="svc-card">
+                <div class="svc-num">03</div>
+                <span class="svc-icon">🦶</span>
+                <h3 class="svc-title">Smart-Педикюр</h3>
+                <p class="svc-desc">Идеальная гладкость стоп, уход за ногтями и кожей, безупречное покрытие. Ваши ножки
+                    будут как шёлк.</p>
+                <span class="svc-from">от</span>
+                <div class="svc-price">1 500 руб <span>/ сеанс</span></div>
+                <span class="svc-tag">Уход ✦</span>
+            </div>
+            <div class="svc-card">
+                <div class="svc-num">04</div>
+                <span class="svc-icon">🎨</span>
+                <h3 class="svc-title">Nail-Арт</h3>
+                <p class="svc-desc">Дизайн любой сложности: акварель, градиент, 3D-элементы, стразы, фольга и ручная
+                    роспись.</p>
+                <span class="svc-from">от</span>
+                <div class="svc-price">300 руб <span>/ ноготь</span></div>
+                <span class="svc-tag">Творчество ✦</span>
+            </div>
+            <div class="svc-card">
+                <div class="svc-num">05</div>
+                <span class="svc-icon">💆</span>
+                <h3 class="svc-title">SPA-Уход</h3>
+                <p class="svc-desc">Парафинотерапия, скраб и маска для рук. Глубокое увлажнение и питание кожи —
+                    идеально после маникюра.</p>
+                <span class="svc-from">от</span>
+                <div class="svc-price">600 руб <span>/ процедура</span></div>
+                <span class="svc-tag">Люкс ✦</span>
+            </div>
+     
+        </div>
+    </section>
+
+    <!-- PROCESS -->
+    <section class="process">
+        <div class="process-title reveal">
+            <span class="section-tag">Как это работает</span>
+            <h2 class="section-title">Всего 4 шага до<br>идеального маникюра</h2>
+        </div>
+        <div class="steps reveal" style="transition-delay:0.2s">
+            <div class="step">
+                <div class="step-num">01</div>
+                <h3>Выбираете услугу</h3>
+                <p>Выбирайте из нашего меню — маникюр, наращивание, педикюр или SPA-уход.</p>
+            </div>
+            <div class="step">
+                <div class="step-num">02</div>
+                <h3>Записываетесь онлайн</h3>
+                <p>Заполняете форму — выбираете дату, время и мастера за пару минут.</p>
+            </div>
+            <div class="step">
+                <div class="step-num">03</div>
+                <h3>Приходите к нам</h3>
+                <p>Никакого ожидания — вас встречают точно в назначенное время.</p>
+            </div>
+            <div class="step">
+                <div class="step-num">04</div>
+                <h3>Наслаждаетесь</h3>
+                <p>Уходите с безупречным результатом и улыбкой. И возвращаетесь снова!</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- GALLERY -->
+    <section class="gallery" id="gallery">
+        <div class="gallery-header reveal">
+            <div>
+                <span class="section-tag">Наши работы</span>
+                <h2 class="section-title">Галерея</h2>
+            </div>
+            <a href="#booking"
+                style="font-size:13px;color:var(--gold);letter-spacing:2px;text-transform:uppercase;text-decoration:none;">Хочу
+                так же →</a>
+        </div>
+        <div class="gallery-grid reveal" style="transition-delay:0.15s">
+            <div class="gallery-item large">
+                <img src="https://images.unsplash.com/photo-1604654894610-df490c81726a?auto=format&fit=crop&w=800&q=80"
+                    alt="Работа 1">
+                <div class="gallery-overlay"><span>Nail Art ✦</span></div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1604902396830-aca7f04b6c53?auto=format&fit=crop&w=400&q=80"
+                    alt="Работа 2">
+                <div class="gallery-overlay"><span>Гель-лак ✦</span></div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1519014816548-bf5fe059798b?auto=format&fit=crop&w=400&q=80"
+                    alt="Работа 3">
+                <div class="gallery-overlay"><span>Маникюр ✦</span></div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1610992015779-46a5e69a8d0e?auto=format&fit=crop&w=400&q=80"
+                    alt="Работа 4">
+                <div class="gallery-overlay"><span>Наращивание ✦</span></div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1604902396830-aca7f04b6c53?auto=format&fit=crop&w=400&q=80"
+                    alt="Работа 5">
+                <div class="gallery-overlay"><span>SPA ✦</span></div>
+            </div>
+        </div>
+    </section>
+
+
+    <section id="masters" class="masters">
+        <div class="reveal" style="text-align:center">
+            <span class="section-tag">Наша команда</span>
+            <h2 class="section-title">Мастера с душой</h2>
+        </div>
+        <div class="masters-grid">
+            <div class="master-card reveal" style="transition-delay:0.1s">
+                <div class="master-photo-wrap">
+                    <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&w=400&q=80"
+                        alt="Мастер" class="master-photo">
+                    <div class="master-ring"></div>
+                </div>
+                <div class="master-name">Шоира А.</div>
+                <div class="master-role">Основатель & Nail-мастер</div>
+                <p class="master-desc">Специализируется на сложных дизайнах и наращивании. 10 лет опыта, обучалась в
+                    Москве и Лондоне.</p>
+                <span class="master-exp">10 лет опыта</span>
+            </div>
+           
+        </div>
+    </section>
+
+    <!-- REVIEWS -->
+    <section id="reviews" class="reviews">
+        <div class="reviews-header reveal">
+            <span class="section-tag">Что говорят клиенты</span>
+            <h2 class="section-title">Отзывы гостей</h2>
+        </div>
+        <div class="reviews-track-wrap reveal" style="transition-delay:0.2s">
+            <div class="reviews-track" id="reviewsTrack">
+                <div class="review-item">
+                    <div class="review-stars">★★★★★</div>
+                    <p class="review-text">"Самый лучший маникюр! Форма идеальная, носится больше месяца без единой
+                        отслойки. Шоира — настоящий художник!"</p>
+                    <div class="review-author">
+                        <div class="review-avatar">А</div>
+                        <div>
+                            <div class="review-name">Анастасия М.</div>
+                            <div class="review-date">Март 2026</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="review-item">
+                    <div class="review-stars">★★★★★</div>
+                    <p class="review-text">"Уютная атмосфера, вкусный кофе и мастера-профессионалы. Хожу уже 3 года и
+                        никуда не пойду! Рекомендую всем подругам."</p>
+                    <div class="review-author">
+                        <div class="review-avatar">К</div>
+                        <div>
+                            <div class="review-name">Екатерина К.</div>
+                            <div class="review-date">Февраль 2026</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="review-item">
+                    <div class="review-stars">★★★★★</div>
+                    <p class="review-text">"Наращивание держится идеально, форма — мечта. До этого испробовала 5 студий,
+                        здесь наконец нашла 'своего' мастера."</p>
+                    <div class="review-author">
+                        <div class="review-avatar">Д</div>
+                        <div>
+                            <div class="review-name">Диана О.</div>
+                            <div class="review-date">Январь 2026</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="review-item">
+                    <div class="review-stars">★★★★★</div>
+                    <p class="review-text">"Педикюр SPA — просто блаженство. Ходила на процедуру впервые и теперь это
+                        мой любимый ритуал самопомощи раз в месяц."</p>
+                    <div class="review-author">
+                        <div class="review-avatar">М</div>
+                        <div>
+                            <div class="review-name">Марина Л.</div>
+                            <div class="review-date">Декабрь 2025</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="review-item">
+                    <div class="review-stars">★★★★★</div>
+                    <p class="review-text">"Записалась онлайн, пришла вовремя, ни минуты ожидания. Такой сервис
+                        редкость! И nail-арт получился именно таким, как я хотела."</p>
+                    <div class="review-author">
+                        <div class="review-avatar">Т</div>
+                        <div>
+                            <div class="review-name">Тамара В.</div>
+                            <div class="review-date">Апрель 2026</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="reviews-nav">
+            <button class="rev-btn" id="revPrev">←</button>
+            <button class="rev-btn" id="revNext">→</button>
+        </div>
+        <div class="reviews-dots" id="revDots"></div>
+    </section>
+
+    <!-- BOOKING -->
+    <section id="booking" class="booking">
+        <div class="booking-inner">
+            <div class="booking-text reveal">
+                <span class="section-tag">Онлайн-запись</span>
+                <h2 class="section-title">Запишитесь к нам прямо сейчас</h2>
+                <p style="color:var(--warm);font-size:15px;line-height:1.8;margin-top:20px;">Выберите удобное время —
+                    мастер будет готов именно к вашему приходу. Без очередей и ожиданий.</p>
+                <div class="booking-features">
+                    <div class="book-feat">
+                        <div class="book-feat-icon">🕐</div><span>Запись за 5 минут — выберите время онлайн</span>
+                    </div>
+                    <div class="book-feat">
+                        <div class="book-feat-icon">📱</div><span>Напомним о визите за день до записи</span>
+                    </div>
+                    <div class="book-feat">
+                        <div class="book-feat-icon">💳</div><span>Оплата наличными или картой</span>
+                    </div>
+                </div>
+            </div>
+            <div class="booking-form reveal" style="transition-delay:0.3s">
+                <div id="bookingForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Ваше имя</label>
+                            <input type="text" placeholder="Анна" id="fName">
+                        </div>
+                        <div class="form-group">
+                            <label>Телефон</label>
+                            <input type="tel" placeholder="+7 (___) ___-__-__" id="fPhone">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Услуга</label>
+                        <select id="fService">
+                            <option value="">Выберите услугу...</option>
+                            <option>Маникюр с покрытием</option>
+                            <option>Наращивание ногтей</option>
+                            <option>Smart-Педикюр</option>
+                            <option>Nail-Арт</option>
+                            <option>SPA-Уход для рук</option>
+                        </select>
+                    </div>
+                 
+                    <div class="form-group">
+                        <label>Мастер</label>
+                        <select id="fMaster">
+                            <option>Шоира А. (Основатель)</option>
+                        </select>
+                    </div>
+                    <button class="btn-submit" id="submitBtn" onclick="handleBooking()"><span>Записаться на сеанс
+                            →</span></button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq" id="faq">
+        <div class="faq-inner">
+            <div class="reveal">
+                <span class="section-tag">Вопросы и ответы</span>
+                <h2 class="section-title">Часто задают</h2>
+                <p style="font-size:14px;color:var(--warm);line-height:1.7;margin-top:20px;">Не нашли ответа? Напишите
+                    нам в WhatsApp — ответим быстро.</p>
+            </div>
+            <div class="faq-list reveal" style="transition-delay:0.2s" id="faqList">
+                <div class="faq-item">
+                    <div class="faq-q">Сколько держится маникюр с гель-лаком? <span class="faq-icon">+</span></div>
+                    <div class="faq-a">
+                        <p>При правильном уходе гель-лак держится 3–4 недели. Мы наносим качественное базовое покрытие и
+                            правильно запечатываем торец — это залог долговечности.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q">Нужно ли приносить свои инструменты? <span class="faq-icon">+</span></div>
+                    <div class="faq-a">
+                        <p>Нет, всё необходимое у нас есть. Все инструменты проходят автоклавную стерилизацию и
+                            запечатаны в индивидуальные пакеты — вскрываются только при вас.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q">Как записаться к конкретному мастеру? <span class="faq-icon">+</span></div>
+                    <div class="faq-a">
+                        <p>В форме записи выберите предпочтительного мастера. Если выбранное время занято, мы предложим
+                            ближайший доступный слот.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q">Можно ли отменить или перенести запись? <span class="faq-icon">+</span></div>
+                    <div class="faq-a">
+                        <p>Да, запись можно отменить или перенести за 24 часа до визита без штрафов. Просто напишите нам
+                            в WhatsApp или позвоните.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q">Есть ли скидки для постоянных клиентов? <span class="faq-icon">+</span></div>
+                    <div class="faq-a">
+                        <p>Да! У нас действует программа лояльности: каждый 10-й маникюр — бесплатно. Новые клиенты
+                            получают 10% скидку на первый визит.</p>
+                    </div>
+                </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MAP -->
+    <section class="map-section">
+        <div class="reveal">
+            <span class="section-tag">Как нас найти</span>
+            <h2 class="section-title">Мы здесь</h2>
+        </div>
+        <div class="map-inner reveal" style="transition-delay:0.2s">
+            <div class="map-frame">
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2245.0!2d37.6176!3d55.7558!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNTXCsDQ1JzIxLjEiTiAzN8KwMzcnMDMuNCJF!5e0!3m2!1sru!2sru!4v1"
+                    allowfullscreen="" loading="lazy"></iframe>
+            </div>
+            <div class="map-info">
+                <div class="map-info-item">
+                    <span class="map-info-icon">📍</span>
+                    <div>
+                        <div class="map-info-label">Адрес</div>
+                        <div class="map-info-val">Москва, ул. Красоты, д. 15<br><span
+                                style="font-size:12px;opacity:0.5;">м. Красные Ворота, 5 минут пешком</span></div>
+                    </div>
+                </div>
+                <div class="map-info-item">
+                    <span class="map-info-icon">🕐</span>
+                    <div>
+                        <div class="map-info-label">Часы работы</div>
+                        <div class="map-info-val">Пн–Сб: 10:00 – 20:00<br>Воскресенье: 11:00 – 18:00</div>
+                    </div>
+                </div>
+                <div class="map-info-item">
+                    <span class="map-info-icon">📞</span>
+                    <div>
+                        <div class="map-info-label">Телефон</div>
+                        <div class="map-info-val">+7 (999) 000-00-00</div>
+                    </div>
+                </div>
+                <div class="map-info-item">
+                    <span class="map-info-icon">🌐</span>
+                    <div>
+                        <div class="map-info-label">Мы в соцсетях</div>
+                        <div class="social-links">
+                            <a href="#" class="social-link">📷</a>
+                            <a href="#" class="social-link">💬</a>
+                            <a href="#" class="social-link">🎵</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-logo">SHOIRA</div>
+        <div class="footer-copy">© 2026 Shoira Cosmética. Все права защищены.</div>
+    </footer>
+
+    <!-- WHATSAPP BUTTON -->
+    <a href="https://wa.me/79990000000" class="wa-float" title="Написать в WhatsApp">💬</a>
+
+    <!-- MOBILE NAV -->
+    <nav class="mobile-nav">
+        <a href="#" class="mob-link active"><span>🏠</span>
+            <p>Главная</p>
+        </a>
+        <a href="#services" class="mob-link"><span>💅</span>
+            <p>Услуги</p>
+        </a>
+        <a href="#masters" class="mob-link"><span>👩</span>
+            <p>Мастера</p>
+        </a>
+        <a href="#booking" class="mob-link"><span>📅</span>
+            <p>Запись</p>
+        </a>
+    </nav>
+
+    <script>
+        // === CURSOR ===
+        const cur = document.getElementById('cursor');
+        const ring = document.getElementById('cursorRing');
+        let mx = 0, my = 0, rx = 0, ry = 0;
+        document.addEventListener('mousemove', e => {
+            mx = e.clientX; my = e.clientY;
+            cur.style.left = mx - 4 + 'px'; cur.style.top = my - 4 + 'px';
+        });
+        function animRing() {
+            rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+            ring.style.left = rx - 18 + 'px'; ring.style.top = ry - 18 + 'px';
+            requestAnimationFrame(animRing);
+        }
+        animRing();
+        document.querySelectorAll('a,button,.svc-card,.gallery-item,.faq-q,.master-card,.rev-btn,.mob-link,.social-link,.wa-float').forEach(el => {
+            el.addEventListener('mouseenter', () => ring.classList.add('hovered'));
+            el.addEventListener('mouseleave', () => ring.classList.remove('hovered'));
+        });
+
+        // === LOADER ===
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const loader = document.getElementById('loader');
+                loader.style.opacity = '0';
+                setTimeout(() => loader.style.display = 'none', 800);
+                document.getElementById('heroBg').style.transform = 'scale(1)';
+            }, 1800);
+        });
+
+        // === HEADER SCROLL ===
+        window.addEventListener('scroll', () => {
+            document.getElementById('header').classList.toggle('scrolled', window.scrollY > 60);
+        });
+
+        // === SCROLL REVEAL ===
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+        }, { threshold: 0.12 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // === STATS COUNT-UP ===
+        function countUp(el, target, duration = 1800) {
+            const start = performance.now();
+            const numEl = el.querySelector('span');
+            function update(now) {
+                const p = Math.min((now - start) / duration, 1);
+                const eased = p < 0.5 ? 2 * p * p : (4 - 2 * p) * p - 1;
+                numEl.textContent = Math.floor(eased * target);
+                if (p < 1) requestAnimationFrame(update);
+                else numEl.textContent = target;
+            }
+            requestAnimationFrame(update);
+        }
+        const statsObs = new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    document.querySelectorAll('[data-target]').forEach(el => {
+                        countUp(el, +el.dataset.target);
+                    });
+                    statsObs.disconnect();
+                }
+            });
+        }, { threshold: 0.3 });
+        document.querySelector('.stats-bar') && statsObs.observe(document.querySelector('.stats-bar'));
+
+        // === REVIEWS CAROUSEL ===
+        const track = document.getElementById('reviewsTrack');
+        const dotsWrap = document.getElementById('revDots');
+        const items = track.querySelectorAll('.review-item');
+        let perSlide = window.innerWidth > 992 ? 3 : window.innerWidth > 600 ? 2 : 1;
+        let cur2 = 0;
+        const total = Math.ceil(items.length / perSlide);
+        function buildDots() {
+            dotsWrap.innerHTML = '';
+            for (let i = 0; i < total; i++) {
+                const d = document.createElement('div');
+                d.className = 'dot-r' + (i === 0 ? ' active' : '');
+                d.addEventListener('click', () => goTo(i));
+                dotsWrap.appendChild(d);
+            }
+        }
+        function goTo(n) {
+            cur2 = Math.max(0, Math.min(n, total - 1));
+            const w = track.parentElement.offsetWidth;
+            track.style.transform = `translateX(-${cur2 * (100 / perSlide) * perSlide / perSlide * w}px)`;
+            // simpler:
+            const cardW = items[0].offsetWidth + 24;
+            track.style.transform = `translateX(-${cur2 * perSlide * cardW}px)`;
+            dotsWrap.querySelectorAll('.dot-r').forEach((d, i) => d.classList.toggle('active', i === cur2));
+        }
+        document.getElementById('revPrev').onclick = () => goTo(cur2 - 1);
+        document.getElementById('revNext').onclick = () => goTo(cur2 + 1);
+        buildDots();
+        setInterval(() => goTo(cur2 < total - 1 ? cur2 + 1 : 0), 5000);
+        window.addEventListener('resize', () => { perSlide = window.innerWidth > 992 ? 3 : window.innerWidth > 600 ? 2 : 1; buildDots(); goTo(0); });
+
+        // === FAQ ===
+        document.querySelectorAll('.faq-q').forEach(q => {
+            q.addEventListener('click', () => {
+                const item = q.parentElement;
+                const wasOpen = item.classList.contains('open');
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+                if (!wasOpen) item.classList.add('open');
+            });
+        });
+
+        // === BOOKING FORM ===
+        // Set min date to today
+        const dateInput = document.getElementById('fDate');
+        if (dateInput) {
+            const today = new Date().toISOString().split('T')[0];
+            dateInput.min = today;
+        }
+        function handleBooking() {
+            const name = document.getElementById('fName').value.trim();
+            const phone = document.getElementById('fPhone').value.trim();
+            const service = document.getElementById('fService').value;
+            const date = document.getElementById('fDate').value;
+            const time = document.getElementById('fTime').value;
+            if (!name || !phone || !service || !date || !time) {
+                showToast('⚠️ Пожалуйста, заполните все поля');
+                return;
+            }
+            showToast('✓ Запись принята! Скоро свяжемся с вами');
+            document.getElementById('bookingForm').innerHTML = `
+    <div style="text-align:center;padding:40px 0;">
+      <div style="font-size:60px;margin-bottom:20px;">🌸</div>
+      <h3 style="font-family:'Cormorant Garamond',serif;font-size:28px;margin-bottom:12px;">Вы записаны, ${name}!</h3>
+      <p style="color:var(--warm);font-size:14px;line-height:1.7;">${service}<br>${formatDate(date)} в ${time}</p>
+      <p style="margin-top:20px;font-size:13px;color:#999;">Подтверждение придёт на ${phone}</p>
+      <button onclick="resetForm()" style="margin-top:30px;padding:12px 30px;border:1.5px solid var(--gold);background:transparent;color:var(--gold);font-family:'Jost',sans-serif;font-size:12px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;">Записаться ещё раз</button>
+    </div>
+  `;
+        }
+        function resetForm() {
+            location.href = '#booking';
+            setTimeout(() => location.reload(), 100);
+        }
+        function formatDate(d) {
+            const [y, m, day] = d.split('-');
+            const months = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
+            return `${+day} ${months[+m - 1]} ${y}`;
+        }
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 3500);
+        }
+
+        // === MOBILE NAV ACTIVE ===
+        const sections = document.querySelectorAll('section[id]');
+        const mobLinks = document.querySelectorAll('.mob-link');
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(s => { if (window.scrollY >= s.offsetTop - 200) current = s.id; });
+            mobLinks.forEach(l => {
+                l.classList.remove('active');
+                if (l.getAttribute('href') === '#' && (current === '' || current === 'hero')) l.classList.add('active');
+                else if (l.getAttribute('href') === '#' + current) l.classList.add('active');
+            });
+        });
+
+        // === PARALLAX HERO ===
+        window.addEventListener('scroll', () => {
+            const hero = document.querySelector('.hero-bg');
+            if (hero) hero.style.transform = `scale(1.1) translateY(${window.scrollY * 0.2}px)`;
+        });
+    </script>
+</body>
+
+</html>
